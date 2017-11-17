@@ -15,7 +15,7 @@ contents = '''
 	$(document).ready(function(){
 		print "$('#CO').css('fill','red')"
 	'''
-	print '''
+print '''
 	});
 
 	</script> </head>
