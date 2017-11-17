@@ -71,7 +71,7 @@ states_caps = {
     }
 
 for key, value in state_caps.iteritems():
-  $('#'"+key+").css('fill','red')
+  $('#"+key+"').css('fill','red')
 });
 '''
 
