@@ -2,10 +2,6 @@
 import requests
 import json
 
-#response = requests.get('https://api.darksky.net/forecast/d56d43f6ed777f198d5a70b504871d05/37.8267,-122.4233')
-#data = json.load(response)
-#print data
-
 print "Content-type: text/html"
 
 print  '''
@@ -15,66 +11,49 @@ print  '''
   <script src="http://code.jquery.com/jquery-2.2.1.js"></script>
 <script>
 '''
-print '''
-$( document ).ready(function() { 
+
 states_caps = {
-        'AL':{'state':'Alabama',        'capital':'Montgomery'},
-        'AK':{'state':'Alaska',         'capital':'Juneau'},
-        'AZ':{'state':'Arizona',        'capital':'Phoenix'},
-        'AR':{'state':'Arkansas',       'capital':'Little+Rock'},
-        'CA':{'state':'California',     'capital':'Sacramento'},
-        #'CO':{'state':'Colorado',       'capital':'Denver'},
-        #'CT':{'state':'Connecticut',    'capital':'Hartford'},
-        #'DE':{'state':'Deleware',       'capital':'Dover'},
-        #'FL':{'state':'Florida',        'capital':'Tallahassee'},
-        #'GA':{'state':'Georgia',        'capital':'Atlanta'},
-        #'HI':{'state':'Hawaii',         'capital':'Honolulu'},
-        #'ID':{'state':'Idaho',          'capital':'Boise'},
-        #'IL':{'state':'Illinois',       'capital':'Springfield'},
-        #'IN':{'state':'Indiana',        'capital':'Indianapolis'},
-        #'IA':{'state':'Iowa',           'capital':'Des+Moines'},
-        #'KS':{'state':'Kansas',         'capital':'Topeka'},
-        #'KY':{'state':'Kentucky',       'capital':'Frankfort'},
-        #'LA':{'state':'Louisiana',      'capital':'Baton+Rouge'},
-        #'ME':{'state':'Maine',          'capital':'Augusta'},
-        #'MD':{'state':'Maryland',       'capital':'Annapolis'},
-        #'MA':{'state':'Massachusetts',  'capital':'Boston'},
-        #'MI':{'state':'Michigan',       'capital':'Lansing'},
-        #'MN':{'state':'Minnesota',      'capital':'Saint+Paul'},
-        #'MS':{'state':'Mississippi',    'capital':'Jackson'},
-        #'MO':{'state':'Missouri',       'capital':'Jefferson+City'},
-        #'MT':{'state':'Montana',        'capital':'Helena'},
-        #'NE':{'state':'Nebraska',       'capital':'Lincoln'},
-        #'NV':{'state':'Nevada',         'capital':'Carson+City'},
-        #'NH':{'state':'New Hampshire',  'capital':'Concord'},
-        #'NJ':{'state':'New Jersey',     'capital':'Trenton'},
-        #'NM':{'state':'New Mexico',     'capital':'Santa+Fe'},
-        #'NY':{'state':'New York',       'capital':'Albany'},
-        #'NC':{'state':'North Carolina', 'capital':'Raleigh'},
-        #'ND':{'state':'North Dakota',   'capital':'Bismarck'},
-        #'OH':{'state':'Ohio',           'capital':'Columbus'},
-        #'OK':{'state':'Oklahoma',       'capital':'Oklahoma City'},
-        #'OR':{'state':'Oregon',         'capital':'Salem'},
-        #'PA':{'state':'Pennsylvania',   'capital':'Harrisburg'},
-        #'RI':{'state':'Rhode Island',   'capital':'Providence'},
-        #'SC':{'state':'South Carolina', 'capital':'Columbia'},
-        #'SD':{'state':'South Dakota',   'capital':'Pierre'},
-        #'TN':{'state':'Tennessee',      'capital':'Nashville'},
-        #'TX':{'state':'Texas',          'capital':'Austin'},
-        #'UT':{'state':'Utah',           'capital':'Salt+Lake+City'},
-        #'VT':{'state':'Vermont',        'capital':'Montpelier'},
-        #'VA':{'state':'Virginia',       'capital':'Richmond'},
-        #'WA':{'state':'Washington',     'capital':'Olympia'},
-        #'WV':{'state':'West Virginia',  'capital':'Charleston'},
-        #'WI':{'state':'Wisconsin',      'capital':'Madison'},
-        #'WY':{'state':'Wyoming',        'capital':'Cheyenne'},
+        'AL':{'state':'Alabama',        'capital':'Montgomery',     'coords':'32.3668,-86.3000'},
+        'AK':{'state':'Alaska',         'capital':'Juneau',         'coords':'58.3019,-134.419'},
+        'AZ':{'state':'Arizona',        'capital':'Phoenix',        'coords':'33.4484,-112.0740'},
+        'AR':{'state':'Arkansas',       'capital':'Little Rock',    'coords':'34.7465,-92.2896'},
+        'CA':{'state':'California',     'capital':'Sacramento',     'coords':'38.5186,-121,4944'},
+        'CO':{'state':'Colorado',       'capital':'Denver',         'coords':'39.7392,-104.9903'},
+        'CT':{'state':'Connecticut',    'capital':'Hartford',       'coords':'41.7637,-72.6851'},
+        'DE':{'state':'Deleware',       'capital':'Dover',          'coords':'39.1582,-75.5244'},
+        'FL':{'state':'Florida',        'capital':'Tallahassee',    'coords':'30.4383,-84.2807'},
+        'GA':{'state':'Georgia',        'capital':'Atlanta',        'coords':'33.7490,-84.3880'},
+        'HI':{'state':'Hawaii',         'capital':'Honolulu',       'coords':'21.3069,-157.8583'},
+        'ID':{'state':'Idaho',          'capital':'Boise',          'coords':'43.6187,-116.2146'},
+        'IL':{'state':'Illinois',       'capital':'Springfield',    'coords':'39.7817,-89.6501'},
+        'IN':{'state':'Indiana',        'capital':'Indianapolis',   'coords':'39.7684,-86.1581'},
+        'IA':{'state':'Iowa',           'capital':'Des Moines',     'coords':'41.6195,-93.5980'}
     }
 
-for key, value in state_caps.iteritems():
-  $('#"+key+"').css('fill','red')
-});
-'''
 
+print '''
+$( document ).ready(function() { 
+
+'''
+for name in states_caps:
+  print "url = 'https://api.darksky.net/forecast/d56d43f6ed777f198d5a70b504871d05/37.8267,-122.4233'"+states_caps[name]['coords']+"'"
+  print '''
+  $.ajax({url:url, dataType:"jsonp"}).then(function(data) {
+  console.log(data)
+  if(data.currently.temperature >80){
+  '''
+  print "$('#"+name+"').css('fill', 'red')}"
+  print "else if(data.currently.temperature >50){"
+  print "$('#"+name+"').css('fill', 'orange')}"
+  print "else if(data.currently.temperature >30){"
+  print "$('#"+name+"').css('fill', 'green')}"
+  print "else if(data.currently.temperature >10){"
+  print "$('#"+name+"').css('fill', 'cyan')}"
+  print "else if(data.currently.temperature <=10){"
+  print "$('#"+name+"').css('fill', 'blue')}"
+  print "else{"
+  print " $('#"+name+"').css('fill', 'gray')}"
+  print "})"
 
 print '''
 </script>
